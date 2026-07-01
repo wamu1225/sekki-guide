@@ -1,0 +1,62 @@
+:root {
+  /* 藍鼠の夜空 × 茜 × 生成り（四季色は figures で使用） */
+  --ai: #34495e;
+  --ai-deep: #243140;
+  --ai-soft: #51697f;
+  --akane: #c0613f;
+  --akane-soft: #d2856a;
+  --gold: #a98423;
+  --paper: #f5f2ea;
+  --paper-card: #fffefa;
+  --ink: #2b3038;
+  --ink-soft: #586472;
+  --line: #e2ddd0;
+  --tip-bg: #eef2f4;
+  --warn-bg: #faf0ea;
+  --info-bg: #f3efe4;
+  /* 四季 */
+  --haru: #7faa5a;
+  --natsu: #3f8fb0;
+  --aki: #c0613f;
+  --fuyu: #6d7f96;
+
+  --maxw: 760px;
+  --radius: 12px;
+  --font: 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Yu Gothic', Meiryo, 'Noto Sans JP', system-ui, sans-serif;
+  --font-serif: 'Hiragino Mincho ProN', 'Yu Mincho', 'Noto Serif JP', serif;
+
+  color-scheme: light;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  font-family: var(--font);
+  color: var(--ink);
+  background: var(--paper);
+  line-height: 1.85;
+  font-size: 16px;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+img, svg { max-width: 100%; height: auto; }
+a { color: var(--ai); text-decoration: none; }
+a:hover { text-decoration: underline; }
+h1, h2, h3 { line-height: 1.45; font-weight: 700; color: var(--ai-deep); }
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--ai);
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 0 0 8px 0;
+  z-index: 100;
+}
+.skip-link:focus { left: 0; }
+
+:focus-visible { outline: 3px solid var(--ai-soft); outline-offset: 2px; }
