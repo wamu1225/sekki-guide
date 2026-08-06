@@ -115,7 +115,7 @@ const FIGURE_DATA: Record<string, { caption: string; inner: string }> = {
     inner: `<div class="diagram-wrap">${kouStructureSvg()}</div>`,
   },
   'teiki-heiki': {
-    caption: '定気法と平気法の違い（模式図）。平気法は一年の時間を等分するため節気の間隔が一定になる。定気法は黄経で等分するため、地球の公転が速い冬は間隔が狭く、遅い夏は広くなる。現在は定気法を用いる。',
+    caption: '定気法と平気法の違い（模式図）。平気法は一年の時間を等分するため節気の間隔が一定になります。定気法は黄経で等分するため、地球の公転が速い冬は間隔が狭く、遅い夏は広くなります。現在は定気法を用います。',
     inner: `<div class="diagram-wrap">${teikiHeikiSvg()}</div>`,
   },
 };
