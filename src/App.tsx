@@ -10,9 +10,9 @@ import { tokenizeInline } from './lib/inline';
 import type { InlineToken } from './lib/inline';
 import { currentKou, nextSekki, ringDegFor, SEASON_OF } from './data/koyomi-now';
 import './App.css';
+import { SITE_NAME, ABOUT_CONTENT, PRIVACY_CONTENT } from './data/static-pages';
 
 const BASE = '/sekki-guide';
-const SITE_NAME = '二十四節気・七十二候ガイド';
 
 function SectionIcon({ name, size = 24 }: { name: string; size?: number }) {
   return <span className="section-icon" dangerouslySetInnerHTML={{ __html: sectionIconSvg(name, size) }} />;
@@ -372,31 +372,7 @@ function ArticlePage({ article }: { article: Article }) {
   );
 }
 
-const ABOUT_CONTENT = `本サイト「${SITE_NAME}」は、二十四節気と七十二候を、今日がどの季節の目盛りにあたるかを一目で確かめられるようにまとめたものです。トップでは今日の節気と候を示し、各ページで意味、日本と中国の候の対比、暦のしくみ、雑節までを扱う。
 
-## 編集と制作の方針
-
-本サイトの内容は、国立天文台 暦計算室や国立国会図書館、農林水産省などの公開情報を参照し、事実を確認したうえで、運営者が自分の言葉で書いています。出典の文章をそのまま転載することはありません。
-
-## 日付の扱い
-
-二十四節気と七十二候の日付は、年によって前後します。本サイトの日付は「◯日頃」という目安で示しており、トップに表示する今日の候も、目安の開始日にもとづく簡易な判定です。正確な日付は、国立天文台が発表する暦要項でご確認いただきたい。
-
-## お問い合わせ
-
-ご質問や誤りのご指摘は[こちらのGoogleフォーム](https://forms.gle/ccMv7oKwz6ysDHBe6)からお願いします。`;
-
-const PRIVACY_CONTENT = `## アクセス解析
-
-本サイトでは、サイトの利用状況を把握するために Google Analytics を使用しています。Google Analytics はクッキーを利用して匿名のトラフィックデータを収集します。収集される情報は匿名で、個人を特定するものではありません。
-
-## 広告について
-
-本サイトでは Google AdSense などの第三者配信の広告サービスを利用することがあります。広告配信事業者は、ユーザーの興味に応じた広告を表示するためにクッキーを使用することがあります。Cookie を無効にする設定や、Google の広告設定により、パーソナライズ広告を無効にできます。
-
-## 免責事項
-
-本サイトの情報は可能な限り正確を期していますが、その完全性や正確性を保証するものではありません。節気と候の日付は年によって前後します。本サイトの情報を利用したことにより生じた損害について、運営者は一切の責任を負いません。`;
 
 function About() {
   useEffect(() => { document.title = `サイトについて | ${SITE_NAME}`; window.scrollTo(0, 0); }, []);

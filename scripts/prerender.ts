@@ -12,7 +12,7 @@ import { currentKou, nextSekki, ringDegFor } from '../src/data/koyomi-now.ts';
 const DIST_DIR = path.resolve(process.cwd(), 'dist');
 const INDEX_HTML_PATH = path.join(DIST_DIR, 'index.html');
 const BASE_URL = 'https://study-apps.com/sekki-guide';
-const SITE_NAME = '二十四節気・七十二候ガイド';
+import { SITE_NAME, ABOUT_CONTENT, PRIVACY_CONTENT } from '../src/data/static-pages.ts';
 const AI = '#34495e';
 const AI_DEEP = '#243140';
 const AKANE = '#c0613f';
@@ -351,31 +351,40 @@ function writeStaticPage(id: string, title: string, description: string, bodyHtm
   generatedCount++;
 }
 
+
+// SSOT（src/data/static-pages.ts）の本文を静的HTMLに変換する。
+// App.tsx 側の parseContent と同じ形（## 見出し＋段落）だけを扱えばよい。
+function staticBodyHtml(md: string): string {
+  return md
+    .split(/\n{2,}/)
+    .map((blk) => {
+      const t = blk.trim();
+      if (!t) return '';
+      if (t.startsWith('## ')) return sectionH2(t.slice(3).trim());
+      const withLinks = t.replace(
+        /\[([^\]]+)\]\(([^)]+)\)/g,
+        (_m, label, href) => `<a href="${href}" target="_blank" rel="noopener noreferrer">${label}</a>`,
+      );
+      return `<p>${withLinks}</p>`;
+    })
+    .filter(Boolean)
+    .join('\n  ');
+}
+
 const sectionH2 = (t: string) => `<h2 style="font-size:1.3rem;color:${AI_DEEP};border-left:4px solid ${AKANE};padding-left:12px;margin:32px 0 12px">${t}</h2>`;
 
 writeStaticPage(
   'about',
   'サイトについて',
   `${SITE_NAME}について。本サイトの目的と情報源、編集方針、日付の扱いを説明します。`,
-  `<p>本サイト「${SITE_NAME}」は、二十四節気と七十二候を、今日がどの季節の目盛りにあたるかを一目で確かめられるようにまとめたものです。トップでは今日の節気と候を示し、各ページで意味、日本と中国の候の対比、暦のしくみ、雑節までを扱います。</p>
-  ${sectionH2('編集と制作の方針')}
-  <p>本サイトの内容は、国立天文台 暦計算室や国立国会図書館、農林水産省などの公開情報を参照し、事実を確認したうえで、運営者が自分の言葉で書いています。出典の文章をそのまま転載することはありません。</p>
-  ${sectionH2('日付の扱い')}
-  <p>二十四節気と七十二候の日付は、年によって前後します。本サイトの日付は「◯日頃」という目安で示しており、トップに表示する今日の候も、目安の開始日にもとづく簡易な判定です。正確な日付は、国立天文台が発表する暦要項でご確認ください。</p>
-  ${sectionH2('お問い合わせ')}
-  <p>ご質問や誤りのご指摘は<a href="https://forms.gle/ccMv7oKwz6ysDHBe6" target="_blank" rel="noopener noreferrer" style="color:${AI}">こちらのGoogleフォーム</a>からお願いします。</p>`
+  staticBodyHtml(ABOUT_CONTENT),
 );
 
 writeStaticPage(
   'privacy',
   'プライバシーポリシー',
   `${SITE_NAME}のプライバシーポリシー。Cookie・アクセス解析・広告の使用について。`,
-  `${sectionH2('アクセス解析')}
-  <p>本サイトでは、サイトの利用状況を把握するために Google Analytics を使用しています。Google Analytics はクッキーを利用して匿名のトラフィックデータを収集します。収集される情報は匿名で、個人を特定するものではありません。</p>
-  ${sectionH2('広告について')}
-  <p>本サイトでは Google AdSense などの第三者配信の広告サービスを利用することがあります。広告配信事業者は、ユーザーの興味に応じた広告を表示するためにクッキーを使用することがあります。Cookie を無効にする設定や、Google の広告設定により、パーソナライズ広告を無効にできます。</p>
-  ${sectionH2('免責事項')}
-  <p>本サイトの情報は可能な限り正確を期していますが、その完全性や正確性を保証するものではありません。節気と候の日付は年によって前後します。本サイトの情報を利用したことにより生じた損害について、運営者は一切の責任を負いません。</p>`
+  staticBodyHtml(PRIVACY_CONTENT),
 );
 
 const today = new Date().toISOString().split('T')[0];
