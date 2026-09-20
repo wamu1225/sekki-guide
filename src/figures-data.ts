@@ -42,7 +42,7 @@ function sekkiRingSvg(): string {
   // 二至二分のラベル
   const label = (deg: number, t: string) => {
     const [lx, ly] = pol(cx, cy, R + 14, deg);
-    return `<text x="${lx.toFixed(1)}" y="${(ly + 4).toFixed(1)}" font-size="10" font-weight="700" fill="${AI_DEEP}" text-anchor="middle">${t}</text>`;
+    return `<text x="${lx.toFixed(1)}" y="${(ly + 4).toFixed(1)}" font-size="10.5" font-weight="700" fill="${AI_DEEP}" text-anchor="middle">${t}</text>`;
   };
   // 太陽（春分の位置に置く）
   const [sx, sy] = pol(cx, cy, R, 0);
@@ -54,7 +54,7 @@ function sekkiRingSvg(): string {
     label(0, '春分') + label(90, '夏至') + label(180, '秋分') + label(270, '冬至') +
     `<circle cx="${sx.toFixed(1)}" cy="${sy.toFixed(1)}" r="6" fill="${GOLD}" stroke="${BG}" stroke-width="1.5"/>` +
     `<text x="${cx}" y="${cy - 4}" font-size="11" font-weight="700" fill="${AI_DEEP}" text-anchor="middle">太陽の通り道</text>` +
-    `<text x="${cx}" y="${cy + 12}" font-size="10" fill="${INK}" text-anchor="middle">（黄道）を24等分</text>` +
+    `<text x="${cx}" y="${cy + 12}" font-size="10.5" fill="${INK}" text-anchor="middle">（黄道）を24等分</text>` +
     `</svg>`
   );
 }
@@ -67,7 +67,7 @@ function kouStructureSvg(): string {
     const x = x0 + i * sw;
     return `<rect x="${x}" y="${y}" width="${sw - 4}" height="${h}" rx="5" fill="${color}"/>` +
       `<text x="${x + sw / 2 - 2}" y="${y + 15}" font-size="10.5" font-weight="700" fill="#fff" text-anchor="middle">${label}</text>` +
-      `<text x="${x + sw / 2 - 2}" y="${y + 28}" font-size="8.5" fill="#fff" text-anchor="middle">約5日</text>`;
+      `<text x="${x + sw / 2 - 2}" y="${y + 28}" font-size="10.5" fill="#fff" text-anchor="middle">約5日</text>`;
   };
   return (
     `<svg class="diagram-single" viewBox="0 0 300 130" width="100%" role="img" aria-label="二十四節気のひとつが初候・次候・末候の三つに分かれて七十二候になる図">` +
@@ -75,32 +75,34 @@ function kouStructureSvg(): string {
     `<text x="150" y="34" font-size="11" font-weight="700" fill="${AI_DEEP}" text-anchor="middle">二十四節気のひとつ（約15日）</text>` +
     `<path d="M24 44 H276" stroke="${AI}" stroke-width="1.5"/>` +
     seg(0, HARU, '初候') + seg(1, NATSU, '次候') + seg(2, AKI, '末候') +
-    `<text x="150" y="116" font-size="10" fill="${INK}" text-anchor="middle">3つ × 24節気 ＝ 七十二候</text>` +
+    `<text x="150" y="116" font-size="10.5" fill="${INK}" text-anchor="middle">3つ × 24節気 ＝ 七十二候</text>` +
     `</svg>`
   );
 }
 
 // 3) 定気法と平気法（節気の間隔の違い）
 function teikiHeikiSvg(): string {
-  const panel = (px: number, title: string, sub: string, ticks: number[]) => {
+  // sub は2行に分けて渡す（10.5px では1行だと枠幅122を超えるため・O-2-25）
+  const panel = (px: number, title: string, sub: [string, string], ticks: number[]) => {
     let t = '';
     for (const tx of ticks) {
-      t += `<line x1="${px + tx}" y1="56" x2="${px + tx}" y2="78" stroke="${AI}" stroke-width="2"/>`;
+      t += `<line x1="${px + tx}" y1="72" x2="${px + tx}" y2="94" stroke="${AI}" stroke-width="2"/>`;
     }
     return `<g>` +
-      `<text x="${px + 65}" y="34" font-size="11" font-weight="700" fill="${AI_DEEP}" text-anchor="middle">${title}</text>` +
-      `<text x="${px + 65}" y="48" font-size="8.5" fill="${INK}" text-anchor="middle">${sub}</text>` +
-      `<line x1="${px + 4}" y1="78" x2="${px + 126}" y2="78" stroke="${AI}" stroke-width="1.5"/>` +
+      `<text x="${px + 65}" y="30" font-size="11" font-weight="700" fill="${AI_DEEP}" text-anchor="middle">${title}</text>` +
+      `<text x="${px + 65}" y="46" font-size="10.5" fill="${INK}" text-anchor="middle">${sub[0]}</text>` +
+      `<text x="${px + 65}" y="60" font-size="10.5" fill="${INK}" text-anchor="middle">${sub[1]}</text>` +
+      `<line x1="${px + 4}" y1="94" x2="${px + 126}" y2="94" stroke="${AI}" stroke-width="1.5"/>` +
       t + `</g>`;
   };
   // 平気法＝等間隔、定気法＝冬狭く夏広く（不等間隔）
   const equal = [10, 30, 50, 70, 90, 110];
   const uneven = [10, 26, 44, 66, 90, 116];
   return (
-    `<svg class="diagram-single" viewBox="0 0 300 100" width="100%" role="img" aria-label="平気法は節気の間隔が等しく定気法は冬に狭く夏に広くなることを示す図">` +
-    `<rect width="300" height="100" fill="${BG}"/>` +
-    panel(8, '平気法', '時間で24等分（間隔が一定）', equal) +
-    panel(160, '定気法', '黄経で24等分（冬は狭く夏は広い）', uneven) +
+    `<svg class="diagram-single" viewBox="0 0 300 118" width="100%" role="img" aria-label="平気法は節気の間隔が等しく定気法は冬に狭く夏に広くなることを示す図">` +
+    `<rect width="300" height="118" fill="${BG}"/>` +
+    panel(8, '平気法', ['時間で24等分', '（間隔が一定）'], equal) +
+    panel(160, '定気法', ['黄経で24等分', '（冬は狭く夏は広い）'], uneven) +
     `</svg>`
   );
 }
