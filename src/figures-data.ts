@@ -141,7 +141,12 @@ export function currentRingSvg(markerDeg: number): string {
   }
   const lbl = (deg: number, t: string) => {
     const [lx, ly] = pol(cx, cy, R + 13, deg);
-    return `<text x="${lx.toFixed(1)}" y="${(ly + 4).toFixed(1)}" font-size="11" font-weight="700" fill="${AI_DEEP}" text-anchor="middle">${t}</text>`;
+    // 左右の端に来るラベル（夏至・冬至）は半径 R+13=105 のままだと中心 x=215 になり、
+    // 2文字ぶん（約22）の半分が viewBox 幅220 をはみ出す（本番実測で 204..226 / -6..16）。
+    // text-anchor=middle なので、文字の半幅ぶんを残して内側へ寄せる。
+    const half = t.length * 5.5 + 1;
+    const x = Math.min(220 - half, Math.max(half, lx));
+    return `<text x="${x.toFixed(1)}" y="${(ly + 4).toFixed(1)}" font-size="11" font-weight="700" fill="${AI_DEEP}" text-anchor="middle">${t}</text>`;
   };
   // 現在位置マーカー（リング中央半径に置く）
   const [mx, my] = pol(cx, cy, (R + r) / 2, markerDeg);
