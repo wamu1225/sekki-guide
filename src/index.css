@@ -4,8 +4,10 @@
   --ai-deep: #243140;
   --ai-soft: #51697f;
   --akane: #c0613f;
+  --akane-text: #9a4528; /* 字に使うときの濃い色（コントラスト 4.5:1 以上・2026-11-07） */
   --akane-soft: #d2856a;
   --gold: #a98423;
+  --gold-text: #7d611c; /* 字に使うときの濃い色（コントラスト 4.5:1 以上・2026-11-07） */
   --paper: #f5f2ea;
   --paper-card: #fffefa;
   --ink: #2b3038;
